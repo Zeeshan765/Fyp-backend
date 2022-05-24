@@ -55,11 +55,11 @@ const Product =
     const schema = Joi.object({
       name: Joi.string().min(3).max(100).required(),
       price: Joi.number().min(0).required(),
-      description:Joi.string().min(3).max(30).required(),
-      info1:Joi.string().min(3).max(25).required(),
-      info2:Joi.string().min(3).max(25).required(),
-      info3:Joi.string().min(3).max(25).required(),
-      info4:Joi.string().min(3).max(25).required(),
+      description:Joi.string().min(3).max(300).required(),
+      info1:Joi.string().min(3).max(70).required(),
+      info2:Joi.string().min(3).max(70).required(),
+      info3:Joi.string().min(3).max(70).required(),
+      info4:Joi.string().min(3).max(70).required(),
       company:Joi.string().min(3).max(20).required(),
       category:Joi.string().min(3).max(10).required(),
 
