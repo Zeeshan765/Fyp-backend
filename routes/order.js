@@ -121,6 +121,22 @@ router.put('/status/:_id', authorization, admin,async (req, res) => {
 });
 
 //get all orders
+// router.get('/allorders1', authorization, admin,async (req, res) => {
+//   try {
+    
+  
+//     const orders = await Order.find();
+
+//     return res.json( orders );;
+//     //console.log(orders.length)
+
+//     //return res.status(200).json(orders);
+//   } catch (err) {
+//     return res.status(500).json('Internal Server Error');
+//   }
+// });
+
+//get all orders
 router.get('/allorders', authorization, admin,async (req, res) => {
   try {
     let page = Number(req.query.page ? req.query.page : 1);
@@ -138,6 +154,8 @@ router.get('/allorders', authorization, admin,async (req, res) => {
     return res.status(500).json('Internal Server Error');
   }
 });
+
+
 
 //get order status----->Filter
 router.get('/:status', async (req, res) => {
