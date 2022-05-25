@@ -97,15 +97,16 @@ router.post('/forgetpassword', async (req, res) => {
   const resetPasswordUrl = `http://localhost:3000/passwordreset/${resetToken}`;
   // const resetPasswordUrl = `http://localhost:3000/passwordreset`;
   const message = `
-     <h1>You have requested a password reset</h1>
-     <p>Please make a put request to the following link:</p>
+     <h4>Hi,</h4>
+     <p>You're recieving this email because we've recieved a password reset request from your account. If you didn't request a password reset, no further action is required.</p>
+     <p>Please Click on  the following link:</p>
      <a href=${resetPasswordUrl} clicktracking=off>${resetPasswordUrl}</a>
    `;
 
   try {
     await sendEmail({
       to: user.email,
-      subject: `Mern-App Password Recovery`,
+      subject: `Password Reset Request`,
       text: message,
     });
 
