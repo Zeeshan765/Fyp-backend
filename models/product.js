@@ -61,7 +61,7 @@ const Product =
       info3:Joi.string().min(3).max(70).required(),
       info4:Joi.string().min(3).max(70).required(),
       company:Joi.string().min(3).max(20).required(),
-      category:Joi.string().min(3).max(10).required(),
+      category:Joi.string().min(3).max(20).required(),
 
     });
     return schema.validate(data, { abortEarly: false });
