@@ -158,4 +158,72 @@ router.put('/passwordreset/:resetToken', validateReset, async (req, res) => {
     console.log(error);
   }
 });
+
+//send otp to user for forgot password
+router.post('/sendotp', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) return res.status(400).json('User Not Registered');
+  // //If user Exsist then compare it password with the database password
+  // let matchpassword = await bcrypt.compare(req.body.password, user.password);
+  // if (!matchpassword) return res.status(401).json('Invalid Password');
+  // //If user esists then assign token to that user
+  // let accessToken = user.generateToken(); //----->Genrate Token
+
+
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  let otp_expire = Date.now() + 3600000;
+  console.log(otp_expire)
+  user.otp = otp;
+  user.otp_expire = otp_expire;
+  await user.save();
+
+
+  const message = `
+      <h4>Hi,</h4>
+      <p>You're recieving this email because we've recieved a password reset request from your account. If you didn't request a password reset, no further action is required.</p>
+      <p>Your OTP is this:</p>
+      <p>${otp}</p>
+
+    `;
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: `Password Reset Request`,
+        text: message,
+      });
+      res.status(200).json({
+        message: `Email sent to ${user.email} successfully`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+}
+);
+
+//reset password on the basis of otp
+router.put('/resetpassword/:otp', async (req, res) => {
+  const otp = req.params.otp;
+  const _id = req.body._id;
+  const user = await User.findOne({ otp, _id: _id });
+  if (!user) return res.status(400).json(' Otp is Expired or Invalid');
+  user.password = req.body.password;
+  user.otp = undefined;
+  await user.save();
+  res.status(201).json({
+    success: true,
+    data: 'Password Updated Success',
+    //token: user.generateToken(),
+  });
+}
+);
+
+  // //If user Exsist then compare it password with the database password
+  // let matchpassword = await bcrypt.compare(req.body.password, user.password);
+  // if (!matchpassword) return res.status(401).json('Invalid Password');
+  // //If user esists then assign token to that user
+  // let accessToken = user.generateToken(); //----->Genrate Token
+  
+
+
 module.exports = router;
