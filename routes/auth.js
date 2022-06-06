@@ -45,6 +45,7 @@ router.post('/login', async (req, res) => {
   //If user esists then assign token to that user
   let accessToken = user.generateToken(); //----->Genrate Token
   res.json(accessToken);
+  console.log(user._id);
 });
 
 //Forget Password

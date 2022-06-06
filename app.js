@@ -15,6 +15,7 @@ var userRouter = require('./routes/userRoute');
 var cartRouter = require('./routes/carts');
 var orderRouter = require('./routes/order');
 var stripeRouter = require('./routes/stripe');
+var chatRouter = require("./routes/chat")
 var app = express();
 //Configure the Dotenv
 dotenv.config();
@@ -40,6 +41,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/data/carts', cartRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/checkout', stripeRouter);
+app.use('/api/chat', chatRouter);
 
 app.use('/api/user', userRouter);
 
