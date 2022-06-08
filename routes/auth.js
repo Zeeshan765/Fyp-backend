@@ -157,4 +157,6 @@ router.put('/passwordreset/:resetToken', validateReset, async (req, res) => {
     console.log(error);
   }
 });
+
+
 module.exports = router;
