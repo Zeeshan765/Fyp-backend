@@ -28,7 +28,9 @@ const UserSchema = new mongoose.Schema(
 
     resetPasswordToken: String,
     resetPasswordExpire: Date,
-  //  resetOtpExpire: Date,
+    otp: String,
+    otpExpiry: Date,
+    //  resetOtpExpire: Date,
   },
   { timestamps: true }
 );

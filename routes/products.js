@@ -329,65 +329,55 @@ router.post('/:id/comments', authorization, async (req, res) => {
   return res.json(comment);
 });
 
-
 //post comment  on product after order is delivered
 router.post('/:id/comments/:orderId', authorization, async (req, res) => {
-  if(req.body.type==="Component"){  
-  let product = await Component.findById(req.params.id);
-  let comment = new Comment({
-    comment: req.body.comment,
-    rating: req.body.rating,
-    user: req.user.name,
-    product: product._id,
-  });
-  await comment.save();
-  product.comments.push(comment);
-  await product.save();
-  console.log(comment);
-  return res.json(comment);
-}
+  if (req.body.type === 'Component') {
+    let product = await Component.findById(req.params.id);
+    let comment = new Comment({
+      comment: req.body.comment,
+      rating: req.body.rating,
+      user: req.user.name,
+      product: product._id,
+    });
+    await comment.save();
+    product.comments.push(comment);
+    await product.save();
+    console.log(comment);
+    return res.json(comment);
+  } else if (req.body.type === 'Product') {
+    {
+      let product = await Product.findById(req.params.id);
+      let comment = new Comment({
+        comment: req.body.comment,
+        rating: req.body.rating,
+        user: req.user.name,
+        product: product._id,
+      });
+      await comment.save();
 
+      product.comments.push(comment);
+      await product.save();
+      console.log(comment);
+      return res.json(comment);
+    }
+  } else if (req.body.type === 'Custom') {
+    {
+      let product = await Product.findById(req.params.id);
+      let comment = new Comment({
+        comment: req.body.comment,
+        rating: req.body.rating,
+        user: req.user.name,
+        product: product._id,
+      });
+      await comment.save();
 
-else if(req.body.type==="Product"){ {
-  let product = await Product.findById(req.params.id);
-  let comment = new Comment({
-    comment: req.body.comment,
-    rating: req.body.rating,
-    user: req.user.name,
-    product: product._id,
-  });
-  await comment.save();
-
-  product.comments.push(comment);
-  await product.save();
-  console.log(comment);
-  return res.json(comment);
-
-}
-}
-else if(req.body.type==="Custom"){ {
-  let product = await Product.findById(req.params.id);
-  let comment = new Comment({
-    comment: req.body.comment,
-    rating: req.body.rating,
-    user: req.user.name,
-    product: product._id,
-  });
-  await comment.save();
-
-  product.comments.push(comment);
-  await product.save();
-  console.log(comment);
-  return res.json(comment);
-
-}
-}
-
+      product.comments.push(comment);
+      await product.save();
+      console.log(comment);
+      return res.json(comment);
+    }
+  }
 });
-
-
-
-
 
 //get comments on product
 router.get('/:id/get/comments', authorization, async (req, res) => {
