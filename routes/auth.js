@@ -224,4 +224,31 @@ router.put('/resetpassword/:id', async (req, res) => {
   }
 });
 
+//sign up user and verify user by sending otp to user and expire otp after 5 min
+router.post('/signup', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (user) return res.status(400).json('User Already Exsist');
+  else {
+    //If user Exsist then send Otp to that user
+    let OTP = Math.floor(Math.random() * 10000 + 1).toString();
+    console.log(OTP);
+    console.log(user._id);
+    let newOtpExpiry = new Date(); // current time
+    let nowMinutes = newOtpExpiry.getMinutes();
+    newOtpExpiry.setMinutes(nowMinutes + 5);
+    console.log(newOtpExpiry);
+    await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      otp: OTP,
+      otpExpiry: newOtpExpiry,
+    });
+  return res.status(200).json('User Created Successfully');
+  }
+});   
+
+
+
+
 module.exports = router;
