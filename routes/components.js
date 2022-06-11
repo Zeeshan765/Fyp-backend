@@ -63,7 +63,7 @@ router.get("/all", authorization, admin, async (req, res) => {
   let perPage = Number(req.query.perPage ? req.query.perPage : 10);
   let skipRecords = perPage * (page - 1);
 
-  let components = await Component.find().skip(skipRecords).limit(perPage);
+  let components = await Component.find().sort({ _id: -1 }).skip(skipRecords).limit(perPage);
 
   let total = await Component.countDocuments();
   return res.json({ total, components });
